@@ -1,40 +1,17 @@
-import { useState } from 'react';
-import { languageConfig } from '../configs';
-
+import { Color } from '../shared';
 import { UserCreate } from './UserCreate';
-import { LanguageContext } from './contexts';
-import { ColorContext } from './contexts/Color';
-import { Color, DispatchSetState, Language } from '../shared';
+import { LanguageSelector } from './LanguageSelector';
+import { LanguageStore, ColorContext } from './contexts';
 
 export const App: React.FC = () => {
-  const [language, setLanguage] = useState<Language>(Language.ENGLISH);
-
   return (
     <div className="ui container">
-      <div>
-        <h3>Select a language:</h3>
-        {languageConfig.map((item) => (
-          <i
-            key={item.flag}
-            className={`flag ${item.flag}`}
-            onClick={_changeLanguage(item.language, setLanguage)}
-          />
-        ))}
-      </div>
-      <LanguageContext.Provider value={language}>
-        <ColorContext.Provider
-          value={
-            language === Language.ENGLISH ? Color.PRIMARY : Color.SECONDARY
-          }
-        >
+      <LanguageStore>
+        <LanguageSelector />
+        <ColorContext.Provider value={Color.PRIMARY}>
           <UserCreate />
         </ColorContext.Provider>
-      </LanguageContext.Provider>
+      </LanguageStore>
     </div>
   );
 };
-
-const _changeLanguage =
-  (language: Language, setLanguage: DispatchSetState<Language>) => () => {
-    setLanguage(language);
-  };

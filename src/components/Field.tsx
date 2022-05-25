@@ -1,10 +1,11 @@
 import { useContext } from 'react';
 
-import { Name } from '../shared';
+import { Language, Name } from '../shared';
 import { LanguageContext } from './contexts';
 
 export const Field: React.FC = () => {
-  const language = useContext(LanguageContext);
+  const context = useContext(LanguageContext);
+  const language = context ? context.language : Language.ENGLISH;
 
   return (
     <div className="ui field">
